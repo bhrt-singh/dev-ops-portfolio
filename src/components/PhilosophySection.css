@@ -1,0 +1,153 @@
+/* Left Accent Bar Fill */
+.philosophy-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  background-color: var(--accent-green, #22c55e);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  height: 0%;
+  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.philosophy-accent-bar.active {
+  height: 100%;
+}
+
+/* Quote Line Staggered Entry */
+.quote-line {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s, text-shadow 0.25s;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}
+
+.quote-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quote-line:hover {
+  color: #22c55e !important;
+  text-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+}
+
+/* Pipeline Connector Line & Traveling Dot */
+.pipeline-connector-line {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 1px;
+  overflow: visible;
+}
+
+.pipeline-connector-dot {
+  position: absolute;
+  top: -3px;
+  left: 0%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+  animation: pipelineDotMove 7s linear infinite;
+}
+
+@keyframes pipelineDotMove {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Icon Micro-Animations */
+.step-card:hover .icon-terminal {
+  animation: terminalBlinkAnim 0.45s ease-in-out infinite alternate;
+}
+
+.step-card:hover .icon-wrench {
+  animation: wrenchShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+.step-card:hover .icon-shield {
+  animation: shieldGlowPulse 0.45s ease-in-out forwards;
+}
+
+.step-card:hover .icon-code {
+  animation: codeFlickerAnim 0.45s ease-in-out forwards;
+}
+
+.step-card:hover .icon-check {
+  animation: checkPopAnim 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes terminalBlinkAnim {
+  0% { filter: drop-shadow(0 0 2px #22c55e); transform: scale(1); }
+  100% { filter: drop-shadow(0 0 10px #22c55e); transform: scale(1.15); }
+}
+
+@keyframes wrenchShake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes shieldGlowPulse {
+  0% { filter: drop-shadow(0 0 2px #22c55e); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 12px #22c55e); transform: scale(1.18); }
+  100% { filter: drop-shadow(0 0 2px #22c55e); transform: scale(1); }
+}
+
+@keyframes codeFlickerAnim {
+  0% { opacity: 1; }
+  25% { opacity: 0.3; }
+  50% { opacity: 1; filter: drop-shadow(0 0 8px #38bdf8); }
+  75% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes checkPopAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25) rotate(-6deg); filter: drop-shadow(0 0 8px #22c55e); }
+  100% { transform: scale(1); }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .philosophy-accent-bar {
+    transition: none !important;
+    height: 100% !important;
+  }
+  .quote-line {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .pipeline-connector-dot {
+    animation: none !important;
+  }
+  .step-card:hover .icon-terminal,
+  .step-card:hover .icon-wrench,
+  .step-card:hover .icon-shield,
+  .step-card:hover .icon-code,
+  .step-card:hover .icon-check {
+    animation: none !important;
+  }
+}

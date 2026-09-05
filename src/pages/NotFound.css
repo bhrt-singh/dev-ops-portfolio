@@ -1,0 +1,136 @@
+@font-face {
+  font-family: "Geist Mono 404";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://static.figma.com/font/GeistMono_wght__1") format("woff2");
+}
+
+.cinematic-404-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #0a0d12;
+  z-index: 9999;
+  user-select: none;
+  font-family: "Geist Mono 404", "JetBrains Mono", Consolas, Monaco, monospace;
+}
+
+/* Fullscreen Native Video Background */
+.cinematic-404-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* Minimal Brand Mark Header */
+.cinematic-404-brand {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cinematic-404-brand-symbol {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Centered Content Group */
+.cinematic-404-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: min(483px, calc(100% - 40px));
+  z-index: 10;
+  gap: 44px;
+}
+
+/* Large Editorial 404 Text */
+.cinematic-404-title {
+  font-size: 290px;
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    247.3282658084845deg,
+    rgb(255, 255, 255) 2.5334%,
+    rgba(255, 255, 255, 0.4) 93.612%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: block;
+}
+
+/* Solid White Divider Line */
+.cinematic-404-divider {
+  width: 425px;
+  height: 1px;
+  background-color: #ffffff;
+  border: none;
+  margin: 0;
+}
+
+/* Minimal Error Message */
+.cinematic-404-message {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin: 0;
+  max-width: 100%;
+}
+
+/* Mobile Breakpoint Refinement */
+@media (max-width: 640px) {
+  .cinematic-404-brand {
+    top: 32px;
+    transform: translateX(-50%) scale(0.75);
+  }
+
+  .cinematic-404-content {
+    width: min(100% - 40px, 360px);
+    gap: 28px;
+  }
+
+  .cinematic-404-title {
+    font-size: clamp(140px, 52vw, 200px);
+    letter-spacing: -0.09em;
+  }
+
+  .cinematic-404-divider {
+    width: 100%;
+  }
+
+  .cinematic-404-message {
+    font-size: clamp(16px, 4.5vw, 20px);
+    letter-spacing: -1.3px;
+  }
+}
