@@ -6,50 +6,59 @@ pipeline {
         nodejs 'node22'
     }
 
-    environment {
-        DOCKER_HOST = 'tcp://docker:2375'
-        DOCKER_TLS_VERIFY = ''
-        DOCKER_CERT_PATH = ''
-    }
-
     stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
 
         stage('Verify Tools') {
             steps {
                 sh '''
-                    echo "Node:"
+                    echo "===== TOOLS ====="
                     node --version
-
-                    echo "npm:"
                     npm --version
+                    docker --version
 
-                    echo "Docker:"
+                    echo "===== DOCKER ENV ====="
+                    echo "DOCKER_HOST=$DOCKER_HOST"
+                    echo "DOCKER_TLS_VERIFY=$DOCKER_TLS_VERIFY"
+                    echo "DOCKER_CERT_PATH=$DOCKER_CERT_PATH"
+
+                    echo "===== FIX DOCKER ENV ====="
+                    export DOCKER_HOST=tcp://docker:2375
+                    unset DOCKER_TLS_VERIFY
+                    unset DOCKER_CERT_PATH
+
+                    echo "DOCKER_HOST=$DOCKER_HOST"
+                    echo "DOCKER_TLS_VERIFY=$DOCKER_TLS_VERIFY"
+                    echo "DOCKER_CERT_PATH=$DOCKER_CERT_PATH"
+
                     docker version
+                    docker ps
                 '''
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh '''
+                    npm ci
+                '''
             }
         }
 
         stage('Build Application') {
             steps {
-                sh 'npm run build'
+                sh '''
+                    npm run build
+                '''
             }
         }
 
         stage('Docker Build') {
             steps {
                 sh '''
+                    export DOCKER_HOST=tcp://docker:2375
+                    unset DOCKER_TLS_VERIFY
+                    unset DOCKER_CERT_PATH
+
                     docker build \
                         -t dev-ops-portfolio:${BUILD_NUMBER} \
                         .
@@ -60,6 +69,10 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh '''
+                    export DOCKER_HOST=tcp://docker:2375
+                    unset DOCKER_TLS_VERIFY
+                    unset DOCKER_CERT_PATH
+
                     docker rm -f dev-ops-portfolio-test || true
 
                     docker run -d \
@@ -73,6 +86,10 @@ pipeline {
         stage('Test Container') {
             steps {
                 sh '''
+                    export DOCKER_HOST=tcp://docker:2375
+                    unset DOCKER_TLS_VERIFY
+                    unset DOCKER_CERT_PATH
+
                     docker exec dev-ops-portfolio-test \
                         wget -qO- http://localhost
                 '''
@@ -83,6 +100,10 @@ pipeline {
     post {
         always {
             sh '''
+                export DOCKER_HOST=tcp://docker:2375
+                unset DOCKER_TLS_VERIFY
+                unset DOCKER_CERT_PATH
+
                 docker rm -f dev-ops-portfolio-test || true
             '''
         }
