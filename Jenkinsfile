@@ -2,8 +2,14 @@ pipeline {
 
     agent any
 
+    tools {
+        nodejs 'NodeJS-22'
+    }
+
     environment {
         DOCKER_HOST = 'tcp://docker:2375'
+        DOCKER_TLS_VERIFY = ''
+        DOCKER_CERT_PATH = ''
     }
 
     stages {
@@ -11,6 +17,21 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Verify Tools') {
+            steps {
+                sh '''
+                    echo "Node:"
+                    node --version
+
+                    echo "npm:"
+                    npm --version
+
+                    echo "Docker:"
+                    docker version
+                '''
             }
         }
 
@@ -57,16 +78,13 @@ pipeline {
                 '''
             }
         }
-
     }
 
     post {
-
         always {
             sh '''
                 docker rm -f dev-ops-portfolio-test || true
             '''
         }
-
     }
 }
